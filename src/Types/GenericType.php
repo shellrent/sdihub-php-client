@@ -25,15 +25,15 @@ class GenericType implements JsonSerializable {
 			
 			if( is_object($value) ) {
 				$this->$key = (array) $value;
+			} else {
+				$this->$key = $value;
 			}
-			
-			$this->$key = $value;
 		}
 	}
 	
 	
 	/**
-	 * Ritorna 
+	 * Ritorna le proprietà della classe serializzabili
 	 * @return array
 	 */
 	public function jsonSerialize() {

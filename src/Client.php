@@ -74,18 +74,18 @@ class Client {
 		curl_setopt( $ch, CURLOPT_CUSTOMREQUEST, $verb );
 		curl_setopt( $ch, CURLOPT_URL, $this->Endpoint . $request );
 		
+		
+		$dataString = json_encode( $json );
 		curl_setopt( $ch, CURLOPT_POST, ! is_null( $json ) );
-		if( ! is_null( $json ) ) {
-			curl_setopt( $ch, CURLOPT_POSTFIELDS, json_encode( $json ) );
-		}
+		curl_setopt( $ch, CURLOPT_POSTFIELDS, $dataString );
 		
 		curl_setopt($ch, CURLOPT_HTTPHEADER, [
+			'Content-Type: application/json',
 			'Authorization: ' . $this->Token,
-			'Content-Type: application/json'
 		]);
 
 		curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, false );
-		curl_setopt( $ch, CURLOPT_SSL_VERIFYHOST, 0 );
+		curl_setopt( $ch, CURLOPT_SSL_VERIFYHOST, 2 );
 		curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
 		curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, 1 );
 		curl_setopt( $ch, CURLOPT_TIMEOUT, $this->Timeout );
@@ -98,7 +98,7 @@ class Client {
 		
 		curl_close($ch);
 		
-		if( $curlErrorMessage ) {
+		if( $curlErrorNumber ) {
 			throw new RequestFailureException( sprintf( 'Curl "%s%s" error: [%s] %s', $this->Endpoint, $request, $curlErrorNumber, $curlErrorMessage ) );
 		}
 		
@@ -141,7 +141,7 @@ class Client {
 	 * @return \SHL\SdiClient\Types\DocumentSent
 	 */
 	public function sendDocument( Types\DocumentInfo $document ) {
-		return new Types\DocumentSent( 
+		return new Types\DocumentSent(
 			$this->curl( 'POST', '/document_sent/create', $document )
 		);
 	}
