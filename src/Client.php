@@ -265,4 +265,68 @@ class Client {
 			$this->curl( 'GET', '/document_received_notification/attachment/' . $id ) 
 		);
 	}
+	
+	
+	/**
+	 * Ritorna la lista di tutte le notifiche di esito inviate per un documento
+	 * @param int $documentId
+	 * @return array
+	 */
+	public function getOutcomeSentList( $documentId ) {
+		return json_decode( 
+			$this->curl( 'GET', '/outcome_sent/' . $documentId )
+		, true );
+	}
+	
+	
+	/**
+	 * Ritorna i dettagli di una notifica di esito inviata
+	 * @param int $id
+	 * @return \SHL\SdiClient\Types\OutcomeSent
+	 */
+	public function getOutcomeSent( $id ) {
+		return new Types\OutcomeSent( 
+			$this->curl( 'GET', '/outcome_sent/details/' . $id ) 
+		);
+	}
+	
+	
+	/**
+	 * Ritorna l'allegato di una notifica di esito inviata
+	 * @param int $id
+	 * @return \SHL\SdiClient\Types\File
+	 */
+	public function getOutcomeSentFile( $id ) {
+		return new Types\File( 
+			$this->curl( 'GET', '/outcome_sent/attachment/' . $id ) 
+		);
+	}
+	
+	
+	/**
+	 * Ritorna il file che spiega l'errore di una notifica di esito inviata
+	 * @param int $id
+	 * @return \SHL\SdiClient\Types\File
+	 */
+	public function getOutcomeSentErrorFile( $id ) {
+		$file = $this->curl( 'GET', '/outcome_sent/error_file/' . $id );
+		if( empty( $file ) ) {
+			return null;
+		}
+		
+		return new Types\File( $file );
+	}
+	
+	
+	/**
+	 * Invia una nuova notifica di esito
+	 * @param int $documentId L'id del documento ricevuto per il quale mandare la notifica
+	 * @param \SHL\SdiClient\Types\OutcomeInfo $outcome
+	 * @return \SHL\SdiClient\Types\OutcomeSent
+	 */
+	public function sendOutcome( $documentId, Types\OutcomeInfo $outcome ) {
+		return new Types\OutcomeSent(
+			$this->curl( 'POST', '/document_sent/create/'. $documentId, $outcome )
+		);
+	}
 }
