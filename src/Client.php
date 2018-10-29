@@ -326,7 +326,7 @@ class Client {
 	 */
 	public function sendOutcome( $documentId, Types\OutcomeInfo $outcome ) {
 		return new Types\OutcomeSent(
-			$this->curl( 'POST', '/document_sent/create/'. $documentId, $outcome )
+			$this->curl( 'POST', '/outcome_sent/create/'. $documentId, $outcome )
 		);
 	}
 }
