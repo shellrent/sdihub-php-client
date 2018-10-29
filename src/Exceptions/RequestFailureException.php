@@ -30,6 +30,4 @@ class RequestFailureException extends Exception {
 		$this->Response = $Response;
 		return $this;
 	}
-
-
 }

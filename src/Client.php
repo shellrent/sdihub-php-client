@@ -65,18 +65,18 @@ class Client {
 	 * Effettua la richiesta tramite curl
 	 * @param string $verb Il verbo http
 	 * @param string $request La richiesta
-	 * @param string $json I dati da inviare convertiti in json
+	 * @param \JsonSerializable $json I dati da inviare convertiti in json
 	 * @return string
 	 * @throws RequestFailureException
 	 */
-	private function curl( string $verb, string $request, string $json = null ) {
+	private function curl( string $verb, string $request, \JsonSerializable $json = null ) {
 		$ch = curl_init();
 		curl_setopt( $ch, CURLOPT_CUSTOMREQUEST, $verb );
 		curl_setopt( $ch, CURLOPT_URL, $this->Endpoint . $request );
 		
 		curl_setopt( $ch, CURLOPT_POST, ! is_null( $json ) );
 		if( ! is_null( $json ) ) {
-			curl_setopt( $ch, CURLOPT_POSTFIELDS, $json );
+			curl_setopt( $ch, CURLOPT_POSTFIELDS, json_encode( $json ) );
 		}
 		
 		curl_setopt($ch, CURLOPT_HTTPHEADER, [
@@ -116,7 +116,33 @@ class Client {
 	 * Ritorna la lista degli id dei documenti inviati
 	 * @return array
 	 */
-	public function getDocumentSent(): array {
-		return json_decode( $this->curl( 'GET', '/document_sent' ), true );
+	public function getDocumentSentList(): array {
+		return json_decode( 
+			$this->curl( 'GET', '/document_sent' )
+		, true );
+	}
+	
+	
+	/**
+	 * Ritorna i dettagli di un documento inviato
+	 * @param int $id
+	 * @return \SHL\SdiClient\Types\DocumentSent
+	 */
+	public function getDocumentSent( $id ) {
+		return new Types\DocumentSent( 
+			$this->curl( 'GET', '/document_sent/details/' . $id ) 
+		);
+	}
+	
+	
+	/**
+	 * Crea un nuovo documento da inviare allo sdi
+	 * @param \SHL\SdiClient\Types\DocumentInfo $document
+	 * @return \SHL\SdiClient\Types\DocumentSent
+	 */
+	public function sendDocument( Types\DocumentInfo $document ) {
+		return new Types\DocumentSent( 
+			$this->curl( 'POST', '/document_sent/create', $document )
+		);
 	}
 }

@@ -3,8 +3,9 @@
 namespace SHL\SdiClient\Types;
 
 use SHL\SdiClient\Exceptions\TypeException;
+use JsonSerializable;
 
-class GenericType {
+class GenericType implements JsonSerializable {
 	/**
 	 * Costruisce l'oggetto passando un json
 	 * @param string $json
@@ -18,7 +19,6 @@ class GenericType {
 		$obj = json_decode( $json );
 		
 		foreach ( $obj as $key => $value ) {
-			$key = ucfirst( $key );
 			if( ! property_exists( $this, $key ) ) {
 				throw new TypeException( sprintf( 'Does not exist "%s" property on model %s', $key, get_class($this) ) );
 			}
@@ -29,5 +29,14 @@ class GenericType {
 			
 			$this->$key = $value;
 		}
+	}
+	
+	
+	/**
+	 * Ritorna 
+	 * @return array
+	 */
+	public function jsonSerialize() {
+		return get_object_vars( $this );
 	}
 }

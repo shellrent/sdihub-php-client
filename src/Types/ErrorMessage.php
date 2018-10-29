@@ -7,17 +7,17 @@ class ErrorMessage extends GenericType {
 	 * Il codice dell'errore
 	 * @var string
 	 */
-	public $Code;
+	public $code;
 	
 	/**
 	 * Il messaggio d'errore
 	 * @var string
 	 */
-	public $Message;
+	public $message;
 	
 	/**
 	 * L'eventuale oggetto di errore
 	 * @var array
 	 */
-	public $Data;
+	public $data;
 }
