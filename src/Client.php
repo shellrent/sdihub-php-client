@@ -99,11 +99,11 @@ class Client {
 		curl_close($ch);
 		
 		if( $curlErrorNumber ) {
-			throw new RequestFailureException( sprintf( 'Curl "%s%s" error: [%s] %s', $this->Endpoint, $request, $curlErrorNumber, $curlErrorMessage ) );
+			throw new RequestFailureException( sprintf( 'Curl "%s%s" was wrong: [%s] %s', $this->Endpoint, $request, $curlErrorNumber, $curlErrorMessage ) );
 		}
 		
 		if ( $httpStatusCode != 200 ) {
-			$exception = new RequestFailureException( sprintf( 'Http request "%s%s" error', $this->Endpoint, $request ) );
+			$exception = new RequestFailureException( sprintf( 'Http request "%s%s" was wrong', $this->Endpoint, $request ) );
 			$exception->setResponse( new ErrorMessage( $result ) );
 			throw $exception;
 		}
