@@ -181,4 +181,88 @@ class Client {
 			$this->curl( 'GET', '/document_sent_notification/attachment/' . $id ) 
 		);
 	}
+	
+	
+	/**
+	 * Ritorna la lista di tutti documenti ricevuti
+	 * @param int $documentId
+	 * @return array
+	 */
+	public function getDocumentReceivedList() {
+		return json_decode( 
+			$this->curl( 'GET', '/document_received' )
+		, true );
+	}
+	
+	
+	/**
+	 * Ritorna i dettagli di un documento ricevuto
+	 * @param int $id
+	 * @return \SHL\SdiClient\Types\DocumentReceived
+	 */
+	public function getDocumentReceived( $id ) {
+		return new Types\DocumentReceived( 
+			$this->curl( 'GET', '/document_received/details/' . $id ) 
+		);
+	}
+	
+	
+	/**
+	 * Ritorna il file del documento ricevuto
+	 * @param int $id
+	 * @return \SHL\SdiClient\Types\File
+	 */
+	public function getDocumentReceivedFile( $id ) {
+		return new Types\File( 
+			$this->curl( 'GET', '/document_received/attachment/' . $id ) 
+		);
+	}
+	
+	
+	/**
+	 * Ritorna il metafile del documento ricevuto
+	 * @param int $id
+	 * @return \SHL\SdiClient\Types\File
+	 */
+	public function getDocumentReceivedMetafile( $id ) {
+		return new Types\File( 
+			$this->curl( 'GET', '/document_received/metafile/' . $id ) 
+		);
+	}
+	
+	
+	/**
+	 * Ritorna la lista di tutte le notifiche di un documento ricevuto
+	 * @param int $documentId
+	 * @return array
+	 */
+	public function getDocumentReceivedNotificationList( $documentId ) {
+		return json_decode( 
+			$this->curl( 'GET', '/document_received_notification/' . $documentId )
+		, true );
+	}
+	
+	
+	/**
+	 * Ritorna i dettagli di una notifica di un documento ricevuto
+	 * @param int $id
+	 * @return \SHL\SdiClient\Types\DocumentReceivedNotification
+	 */
+	public function getDocumentReceivedNotification( $id ) {
+		return new Types\DocumentReceivedNotification( 
+			$this->curl( 'GET', '/document_received_notification/details/' . $id ) 
+		);
+	}
+	
+	
+	/**
+	 * Ritorna l'allegato di una notifica di un documento ricevuto
+	 * @param int $id
+	 * @return \SHL\SdiClient\Types\File
+	 */
+	public function getDocumentReceivedNotificationFile( $id ) {
+		return new Types\File( 
+			$this->curl( 'GET', '/document_received_notification/attachment/' . $id ) 
+		);
+	}
 }
