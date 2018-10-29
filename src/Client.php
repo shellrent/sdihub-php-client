@@ -145,4 +145,40 @@ class Client {
 			$this->curl( 'POST', '/document_sent/create', $document )
 		);
 	}
+	
+	
+	/**
+	 * Ritorna la lista di tutte le notifiche di un documento
+	 * @param int $documentId
+	 * @return array
+	 */
+	public function getDocumentSentNotificationList( $documentId ) {
+		return json_decode( 
+			$this->curl( 'GET', '/document_sent_notification/' . $documentId )
+		, true );
+	}
+	
+	
+	/**
+	 * Ritorna i dettagli di una notifica di un documento
+	 * @param int $id
+	 * @return \SHL\SdiClient\Types\DocumentSentNotification
+	 */
+	public function getDocumentSentNotification( $id ) {
+		return new Types\DocumentSentNotification( 
+			$this->curl( 'GET', '/document_sent_notification/details/' . $id ) 
+		);
+	}
+	
+	
+	/**
+	 * Ritorna l'allegato di una notifica
+	 * @param int $id
+	 * @return \SHL\SdiClient\Types\File
+	 */
+	public function getDocumentSentNotificationFile( $id ) {
+		return new Types\File( 
+			$this->curl( 'GET', '/document_sent_notification/attachment/' . $id ) 
+		);
+	}
 }
