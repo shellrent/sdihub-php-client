@@ -1,0 +1,21 @@
+{
+    "name": "ShellrentSrl/sdihub-php-client",
+    "description": "PHP API client for SdI Shellrent Hub",
+    "authors": [
+        {
+            "name": "Shellrent Srl",
+            "email": "sviluppo@shellrent.com"
+        }
+    ],
+    "type": "project",
+    "require": {
+		"php": ">=7.0"
+    },
+	"require-dev": {
+    },
+	"autoload": {
+        "psr-4": {
+            "SHL\\SdiClient\\": "src/"
+        }
+    }
+}
