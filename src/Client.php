@@ -167,10 +167,11 @@ class Client {
 	 * @return \SHL\SdiClient\Types\User
 	 */
 	public function editUserActiveStatus( $userId, bool $activeStatus ) {
+		$params = new Types\GenericType();
+		$params->active_status = $activeStatus;
+		
 		return new Types\User(
-			$this->curl( 'PUT', '/user/active/' . $userId, [
-				'active_status' => $activeStatus,
-			])
+			$this->curl( 'PUT', '/user/active/' . $userId, $params )
 		);
 	}
 	
