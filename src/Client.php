@@ -113,6 +113,69 @@ class Client {
 	
 	
 	/**
+	 * Ritorna la lista degli id degli Utenti in gestione
+	 * @return array
+	 */
+	public function getUserList() {
+		return json_decode( 
+			$this->curl( 'GET', '/user' )
+		, true );
+	}
+	
+	
+	/**
+	 * Ritorna i dettagli di un utente in gestione
+	 * @param int $id
+	 * @return \SHL\SdiClient\Types\User
+	 */
+	public function getUser( $id ) {
+		return new Types\User( 
+			$this->curl( 'GET', '/user/details/' . $id ) 
+		);
+	}
+	
+	
+	/**
+	 * Crea un nuovo utente
+	 * @param \SHL\SdiClient\Types\UserInfo $user
+	 * @return \SHL\SdiClient\Types\User
+	 */
+	public function createUser( Types\UserInfo $user ) {
+		return new Types\User(
+			$this->curl( 'POST', '/user/create', $user )
+		);
+	}
+	
+	
+	/**
+	 * Modifica un utente in gestione
+	 * @param int $userId
+	 * @param \SHL\SdiClient\Types\UserInfo $user
+	 * @return \SHL\SdiClient\Types\User
+	 */
+	public function editUser( $userId, Types\UserInfo $user ) {
+		return new Types\User(
+			$this->curl( 'PUT', '/user/edit/' . $userId, $user )
+		);
+	}
+	
+	
+	/**
+	 * Modifica lo stato di attivazione di un utente in gestione
+	 * @param int $userId
+	 * @param bool $activeStatus
+	 * @return \SHL\SdiClient\Types\User
+	 */
+	public function editUserActiveStatus( $userId, bool $activeStatus ) {
+		return new Types\User(
+			$this->curl( 'PUT', '/user/active/' . $userId, [
+				'active_status' => $activeStatus,
+			])
+		);
+	}
+	
+	
+	/**
 	 * Ritorna la lista degli id dei documenti inviati
 	 * @param int $userId
 	 * @return array
