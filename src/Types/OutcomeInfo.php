@@ -13,5 +13,5 @@ class OutcomeInfo extends GenericType {
 	 * La descrizione dell'esito
 	 * @var string
 	 */
-	public $description = '';
+	public $description = null;
 }

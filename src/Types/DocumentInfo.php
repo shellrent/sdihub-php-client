@@ -14,7 +14,7 @@ class DocumentInfo extends GenericType {
 	 * L'external id utilizzato per identificare esternemanete all'hub il documento
 	 * @var string
 	 */
-	public $external_id = '';
+	public $external_id = null;
 	
 	/**
 	 * Il mimetype del documento

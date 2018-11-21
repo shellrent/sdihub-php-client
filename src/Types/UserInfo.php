@@ -12,20 +12,20 @@ class UserInfo extends GenericType {
 	/**
 	 * @var string
 	 */
-	public $vat_number;
+	public $vat_number = null;
 	
 	/**
 	 * @var string
 	 */
-	public $country_code;
+	public $country_code = null;
 	
 	/**
 	 * @var string
 	 */
-	public $recipient_code;
+	public $recipient_code = null;
 	
 	/**
 	 * @var string
 	 */
-	public $document_format;
+	public $document_format = null;
 }

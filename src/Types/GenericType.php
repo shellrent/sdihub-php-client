@@ -37,6 +37,16 @@ class GenericType implements JsonSerializable {
 	 * @return array
 	 */
 	public function jsonSerialize() {
-		return get_object_vars( $this );
+		$properties = [];
+		
+		foreach ( get_object_vars( $this ) as $key => $value ) {
+			if( is_null( $value ) ) {
+				continue;
+			}
+			
+			$properties[$key] = $value;
+		}
+		
+		return $properties;
 	}
 }
