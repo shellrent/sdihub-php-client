@@ -3,6 +3,13 @@
 namespace SHL\SdiClient\Types;
 
 class DocumentInfo extends GenericType {
+	
+	/**
+	 * L'id dell'utente
+	 * @var int
+	 */
+	public $user_id;
+	
 	/**
 	 * L'external id utilizzato per identificare esternemanete all'hub il documento
 	 * @var string
@@ -27,9 +34,10 @@ class DocumentInfo extends GenericType {
 	 * @param string $path
 	 * @return \SHL\SdiClient\Types\DocumentInfo
 	 */
-	public static function createByFilepath( $path ) {
+	public static function createByFilepath( $userId, $path ) {
 		$document = new DocumentInfo();
 		
+		$document->user_id = $userId;
 		$document->mimetype = mime_content_type( $path );
 		$document->file = base64_encode( file_get_contents( $path ) );
 		

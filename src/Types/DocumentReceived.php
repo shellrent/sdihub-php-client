@@ -10,6 +10,11 @@ class DocumentReceived extends GenericType {
 	public $id;
 
 	/**
+	 * @property int 
+	 */
+	public $user_id;
+
+	/**
 	 * @property string 
 	 */
 	public $recipient_code;

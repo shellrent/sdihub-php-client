@@ -114,11 +114,17 @@ class Client {
 	
 	/**
 	 * Ritorna la lista degli id dei documenti inviati
+	 * @param int $userId
 	 * @return array
 	 */
-	public function getDocumentSentList(): array {
+	public function getDocumentSentList( $userId = null ) {
+		$route = '/document_sent';
+		if( !is_null( $userId ) ) {
+			$route .= '/'.$userId;
+		}
+		
 		return json_decode( 
-			$this->curl( 'GET', '/document_sent' )
+			$this->curl( 'GET', $route )
 		, true );
 	}
 	
@@ -185,12 +191,17 @@ class Client {
 	
 	/**
 	 * Ritorna la lista di tutti documenti ricevuti
-	 * @param int $documentId
+	 * @param int $userId
 	 * @return array
 	 */
-	public function getDocumentReceivedList() {
+	public function getDocumentReceivedList( $userId = null ) {
+		$route = '/document_received';
+		if( !is_null( $userId ) ) {
+			$route .= '/'.$userId;
+		}
+		
 		return json_decode( 
-			$this->curl( 'GET', '/document_received' )
+			$this->curl( 'GET', $route )
 		, true );
 	}
 	

@@ -7,7 +7,12 @@ class DocumentSent extends GenericType {
 	 * @property int 
 	 */
 	public $id;
-			
+	
+	/**
+	 * @var int
+	 */
+	public $user_id;
+	
 	/**
 	 * @property string 
 	 */
