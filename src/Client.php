@@ -103,8 +103,9 @@ class Client {
 		}
 		
 		if ( $httpStatusCode != 200 ) {
-			$exception = new RequestFailureException( sprintf( 'Http request "%s%s" was wrong', $this->Endpoint, $request ) );
-			$exception->setResponse( new ErrorMessage( $result ) );
+			$errorMessage = new ErrorMessage( $result );
+			$exception = new RequestFailureException( sprintf( 'Http request "%s%s" was wrong. Code [%s] Message "%s"', $this->Endpoint, $request, $errorMessage->code, $errorMessage->message ) );
+			$exception->setResponse( $errorMessage );
 			throw $exception;
 		}
 		

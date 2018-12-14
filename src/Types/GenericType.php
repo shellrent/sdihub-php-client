@@ -17,10 +17,13 @@ class GenericType implements JsonSerializable {
 		}
 		
 		$obj = json_decode( $json );
+		if( ! $obj ) {
+			throw new TypeException( sprintf( 'Invalid json for Model %s construction', get_class($this) ) );
+		}
 		
 		foreach ( $obj as $key => $value ) {
 			if( ! property_exists( $this, $key ) ) {
-				throw new TypeException( sprintf( 'Does not exist "%s" property on model %s', $key, get_class($this) ) );
+				throw new TypeException( sprintf( 'Does not exist "%s" property on Model %s', $key, get_class($this) ) );
 			}
 			
 			if( is_object($value) ) {
