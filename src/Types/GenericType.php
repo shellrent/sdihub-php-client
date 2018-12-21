@@ -23,7 +23,7 @@ class GenericType implements JsonSerializable {
 		
 		foreach ( $obj as $key => $value ) {
 			if( ! property_exists( $this, $key ) ) {
-				throw new TypeException( sprintf( 'Does not exist "%s" property on Model %s', $key, get_class($this) ) );
+				continue;
 			}
 			
 			if( is_object($value) ) {
