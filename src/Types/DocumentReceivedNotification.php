@@ -15,6 +15,11 @@ class DocumentReceivedNotification extends GenericType {
 	public $document_received_id;
 	
 	/**
+	 * @var string
+	 */
+	public $sdi_message_identifier;
+
+	/**
 	 * @property string
 	 */
 	public $request_name;

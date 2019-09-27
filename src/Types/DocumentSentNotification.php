@@ -15,6 +15,11 @@ class DocumentSentNotification extends GenericType {
 	public $document_sent_id;
 	
 	/**
+	 * @var string
+	 */
+	public $sdi_message_identifier;
+
+	/**
 	 * @property string
 	 */
 	public $request_name;
