@@ -1,9 +1,9 @@
 {
-    "name": "shellrentsrl/sdihub-php-client",
+    "name": "shellrent/sdihub-php-client",
     "description": "PHP API client for SdI Shellrent Hub",
     "authors": [
         {
-            "name": "Shellrent Srl",
+            "name": "Shellrent",
             "email": "sviluppo@shellrent.com"
         }
     ],
