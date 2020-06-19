@@ -7,12 +7,12 @@ Aggiungere nel composer.json
 `"repositories": [
     {
         "type": "vcs",
-        "url": "git@github.com:ShellrentSrl/sdihub-php-client.git"
+        "url": "git@github.com:shellrent/sdihub-php-client.git"
     }
 ],`
   
 `"require": {
-  "ShellrentSrl/sdihub-php-client": "dev-master"
+  "shellrent/sdihub-php-client": "dev-master"
 }`
   
   
