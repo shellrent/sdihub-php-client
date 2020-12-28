@@ -1,18 +1,16 @@
 # sdihub-php-client
+
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/shellrent/sdihub-php-client.svg?style=flat-square)](https://packagist.org/packages/shellrent/sdihub-php-client)
+
 PHP API client for SdI Shellrent Hub
 
 ## Installazione
-Aggiungere nel composer.json
 
-`"repositories": [
-    {
-        "type": "vcs",
-        "url": "git@github.com:shellrent/sdihub-php-client.git"
-    }
-],`
-  
-`"require": {
-  "shellrent/sdihub-php-client": "dev-master"
-}`
+
+Il pacchetto viene installato attraverso composer, e richiede PHP >= 7.0
+
+```bash
+composer require shellrent/sdihub-php-client
+```
   
   
