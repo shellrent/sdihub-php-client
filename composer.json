@@ -1,6 +1,7 @@
 {
     "name": "shellrent/sdihub-php-client",
     "description": "PHP API client for SdI Shellrent Hub",
+    "license": "MIT",
     "authors": [
         {
             "name": "Shellrent",
