@@ -2,8 +2,17 @@
 
 namespace SHL\SdiClient;
 
+use JsonSerializable;
 use SHL\SdiClient\Exceptions\RequestFailureException;
+use SHL\SdiClient\Types\DocumentInfo;
+use SHL\SdiClient\Types\DocumentReceived;
+use SHL\SdiClient\Types\DocumentSent;
+use SHL\SdiClient\Types\DocumentSentNotification;
 use SHL\SdiClient\Types\ErrorMessage;
+use SHL\SdiClient\Types\File;
+use SHL\SdiClient\Types\OutcomeSent;
+use SHL\SdiClient\Types\User;
+use SHL\SdiClient\Types\UserInfo;
 
 class Client {
 	/**
@@ -30,6 +39,11 @@ class Client {
 	 */
 	private $TryConnectionTimeout = 120;
 	
+	/**
+	 * @var bool 
+	 */
+	private $VerifyCertificate = true;
+	
 
 	/**
 	 * Costruisce il client con i parametri di connessione
@@ -49,6 +63,7 @@ class Client {
 	 */
 	public function setTimeout( int $timeout ) {
 		$this->Timeout = $timeout;
+		return $this;
 	}
 
 	
@@ -58,18 +73,25 @@ class Client {
 	 */
 	public function setTryConnectionTimeout( int $tryConnectionTimeout ) {
 		$this->TryConnectionTimeout = $tryConnectionTimeout;
+		return $this;
 	}
-
+	
+	
+	public function disableCertificateCheck() {
+		$this->VerifyCertificate = false;
+		return $this;
+	}
+	
 	
 	/**
 	 * Effettua la richiesta tramite curl
 	 * @param string $verb Il verbo http
 	 * @param string $request La richiesta
-	 * @param \JsonSerializable $json I dati da inviare convertiti in json
+	 * @param JsonSerializable $json I dati da inviare convertiti in json
 	 * @return string
 	 * @throws RequestFailureException
 	 */
-	private function curl( string $verb, string $request, \JsonSerializable $json = null ) {
+	private function curl( string $verb, string $request, JsonSerializable $json = null ) {
 		$ch = curl_init();
 		curl_setopt( $ch, CURLOPT_CUSTOMREQUEST, $verb );
 		curl_setopt( $ch, CURLOPT_URL, $this->Endpoint . $request );
@@ -84,8 +106,8 @@ class Client {
 			'Authorization: ' . $this->Token,
 		]);
 
-		curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, false );
-		curl_setopt( $ch, CURLOPT_SSL_VERIFYHOST, 2 );
+		curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, $this->VerifyCertificate );
+		curl_setopt( $ch, CURLOPT_SSL_VERIFYHOST, $this->VerifyCertificate ? 2 : 0 );
 		curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
 		curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, 1 );
 		curl_setopt( $ch, CURLOPT_TIMEOUT, $this->Timeout );
@@ -127,7 +149,7 @@ class Client {
 	/**
 	 * Ritorna i dettagli di un utente in gestione
 	 * @param int $id
-	 * @return \SHL\SdiClient\Types\User
+	 * @return User
 	 */
 	public function getUser( $id ) {
 		return new Types\User( 
@@ -138,8 +160,8 @@ class Client {
 	
 	/**
 	 * Crea un nuovo utente
-	 * @param \SHL\SdiClient\Types\UserInfo $user
-	 * @return \SHL\SdiClient\Types\User
+	 * @param UserInfo $user
+	 * @return User
 	 */
 	public function createUser( Types\UserInfo $user ) {
 		return new Types\User(
@@ -151,8 +173,8 @@ class Client {
 	/**
 	 * Modifica un utente in gestione
 	 * @param int $userId
-	 * @param \SHL\SdiClient\Types\UserInfo $user
-	 * @return \SHL\SdiClient\Types\User
+	 * @param UserInfo $user
+	 * @return User
 	 */
 	public function editUser( $userId, Types\UserInfo $user ) {
 		return new Types\User(
@@ -165,7 +187,7 @@ class Client {
 	 * Modifica lo stato di attivazione di un utente in gestione
 	 * @param int $userId
 	 * @param bool $activeStatus
-	 * @return \SHL\SdiClient\Types\User
+	 * @return User
 	 */
 	public function editUserActiveStatus( $userId, bool $activeStatus ) {
 		$params = new Types\GenericType();
@@ -197,7 +219,7 @@ class Client {
 	/**
 	 * Ritorna i dettagli di un documento inviato
 	 * @param int $id
-	 * @return \SHL\SdiClient\Types\DocumentSent
+	 * @return DocumentSent
 	 */
 	public function getDocumentSent( $id ) {
 		return new Types\DocumentSent( 
@@ -208,8 +230,8 @@ class Client {
 	
 	/**
 	 * Crea un nuovo documento da inviare allo sdi
-	 * @param \SHL\SdiClient\Types\DocumentInfo $document
-	 * @return \SHL\SdiClient\Types\DocumentSent
+	 * @param DocumentInfo $document
+	 * @return DocumentSent
 	 */
 	public function sendDocument( Types\DocumentInfo $document ) {
 		return new Types\DocumentSent(
@@ -233,7 +255,7 @@ class Client {
 	/**
 	 * Ritorna i dettagli di una notifica di un documento
 	 * @param int $id
-	 * @return \SHL\SdiClient\Types\DocumentSentNotification
+	 * @return DocumentSentNotification
 	 */
 	public function getDocumentSentNotification( $id ) {
 		return new Types\DocumentSentNotification( 
@@ -245,7 +267,7 @@ class Client {
 	/**
 	 * Ritorna l'allegato di una notifica
 	 * @param int $id
-	 * @return \SHL\SdiClient\Types\File
+	 * @return File
 	 */
 	public function getDocumentSentNotificationFile( $id ) {
 		return new Types\File( 
@@ -274,7 +296,7 @@ class Client {
 	/**
 	 * Ritorna i dettagli di un documento ricevuto
 	 * @param int $id
-	 * @return \SHL\SdiClient\Types\DocumentReceived
+	 * @return DocumentReceived
 	 */
 	public function getDocumentReceived( $id ) {
 		return new Types\DocumentReceived( 
@@ -286,7 +308,7 @@ class Client {
 	/**
 	 * Ritorna il file del documento ricevuto
 	 * @param int $id
-	 * @return \SHL\SdiClient\Types\File
+	 * @return File
 	 */
 	public function getDocumentReceivedFile( $id ) {
 		return new Types\File( 
@@ -298,7 +320,7 @@ class Client {
 	/**
 	 * Ritorna il metafile del documento ricevuto
 	 * @param int $id
-	 * @return \SHL\SdiClient\Types\File
+	 * @return File
 	 */
 	public function getDocumentReceivedMetafile( $id ) {
 		return new Types\File( 
@@ -334,7 +356,7 @@ class Client {
 	/**
 	 * Ritorna l'allegato di una notifica di un documento ricevuto
 	 * @param int $id
-	 * @return \SHL\SdiClient\Types\File
+	 * @return File
 	 */
 	public function getDocumentReceivedNotificationFile( $id ) {
 		return new Types\File( 
@@ -358,7 +380,7 @@ class Client {
 	/**
 	 * Ritorna i dettagli di una notifica di esito inviata
 	 * @param int $id
-	 * @return \SHL\SdiClient\Types\OutcomeSent
+	 * @return OutcomeSent
 	 */
 	public function getOutcomeSent( $id ) {
 		return new Types\OutcomeSent( 
@@ -370,7 +392,7 @@ class Client {
 	/**
 	 * Ritorna l'allegato di una notifica di esito inviata
 	 * @param int $id
-	 * @return \SHL\SdiClient\Types\File
+	 * @return File
 	 */
 	public function getOutcomeSentFile( $id ) {
 		return new Types\File( 
@@ -382,7 +404,7 @@ class Client {
 	/**
 	 * Ritorna il file che spiega l'errore di una notifica di esito inviata
 	 * @param int $id
-	 * @return \SHL\SdiClient\Types\File
+	 * @return File
 	 */
 	public function getOutcomeSentErrorFile( $id ) {
 		$file = $this->curl( 'GET', '/outcome_sent/error_file/' . $id );
@@ -398,7 +420,7 @@ class Client {
 	 * Invia una nuova notifica di esito
 	 * @param int $documentId L'id del documento ricevuto per il quale mandare la notifica
 	 * @param \SHL\SdiClient\Types\OutcomeInfo $outcome
-	 * @return \SHL\SdiClient\Types\OutcomeSent
+	 * @return OutcomeSent
 	 */
 	public function sendOutcome( $documentId, Types\OutcomeInfo $outcome ) {
 		return new Types\OutcomeSent(
