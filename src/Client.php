@@ -200,6 +200,22 @@ class Client {
 	
 	
 	/**
+	 * Modifica P.Iva e C.F. dell'utente
+	 * creando un utente nuovo
+	 * disattivando l'utente precedente
+	 *
+	 * @param $userId
+	 * @param UserInfo $user
+	 * @return User
+	 */
+	public function editBilling ( $userId, Types\UserInfo $user ) {
+		return new Types\User(
+			$this->curl('PATCH', '/user/edit_billing/' . $userId, $user)
+		);
+	}
+	
+	
+	/**
 	 * Ritorna la lista degli id dei documenti inviati
 	 * @param int $userId
 	 * @return array
