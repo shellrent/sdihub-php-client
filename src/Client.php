@@ -198,9 +198,19 @@ class Client {
 		);
 	}
 	
-	public function patchUserData ( $userId, Types\UserInfo $user ) {
+	
+	/**
+	 * Modifica P.Iva e C.F. dell'utente
+	 * creando un utente nuovo
+	 * disattivando l'utente precedente
+	 *
+	 * @param $userId
+	 * @param UserInfo $user
+	 * @return User
+	 */
+	public function editBilling ( $userId, Types\UserInfo $user ) {
 		return new Types\User(
-			$this->curl('PATCH', '/user/patch/' . $userId, $user);
+			$this->curl('PATCH', '/user/edit_billing/' . $userId, $user)
 		);
 	}
 	
