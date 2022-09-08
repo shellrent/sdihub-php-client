@@ -198,6 +198,12 @@ class Client {
 		);
 	}
 	
+	public function patchUserData ( $userId, Types\UserInfo $user ) {
+		return new Types\User(
+			$this->curl('PATCH', '/user/patch/' . $userId, $user);
+		);
+	}
+	
 	
 	/**
 	 * Ritorna la lista degli id dei documenti inviati
