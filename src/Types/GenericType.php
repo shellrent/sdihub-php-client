@@ -37,9 +37,9 @@ class GenericType implements JsonSerializable {
 	
 	/**
 	 * Ritorna le proprietà della classe serializzabili
-	 * @return array
+	 * @return array|mixed
 	 */
-	public function jsonSerialize() {
+	public function jsonSerialize(): mixed {
 		$properties = [];
 		
 		foreach ( get_object_vars( $this ) as $key => $value ) {
