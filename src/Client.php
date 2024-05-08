@@ -124,7 +124,7 @@ class Client {
 			throw new RequestFailureException( sprintf( 'Curl "%s%s" was wrong: [%s] %s', $this->Endpoint, $request, $curlErrorNumber, $curlErrorMessage ) );
 		}
 		
-		if ( $httpStatusCode != 200 ) {
+		if ( !in_array($httpStatusCode, [200, 201, 204]) ) {
 			$errorMessage = new ErrorMessage( $result );
 			$exception = new RequestFailureException( sprintf( 'Http request "%s%s" was wrong. Code [%s] Message "%s"', $this->Endpoint, $request, $errorMessage->code, $errorMessage->message ) );
 			$exception->setResponse( $errorMessage );
